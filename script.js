@@ -1,0 +1,371 @@
+let isExploded = false;
+let highlightedPartId = null; // Track which part is currently highlighted
+
+// Part information database
+const partInfo = {
+  'gen3_brackets-back_top-side': {
+    title: 'Top Back Brackets',
+    description: 'Structural support brackets for top ceiling assembly mounting.'
+  },
+  'gen3_brackets-front_top-side': {
+    title: 'Top Front Brackets',
+    description: 'Front-facing structural brackets supporting the top pod ceiling.'
+  },
+  'gen3_brackets-back_bottom-side': {
+    title: 'Bottom Back Brackets',
+    description: 'Rear mounting brackets securing the bottom pod floor.'
+  },
+  'gen3_brackets-front_bottom-side': {
+    title: 'Bottom Front Brackets',
+    description: 'Front structural brackets for bottom pod floor support.'
+  },
+  'gen3_bottom-pod_floor': {
+    title: 'Bottom Pod Floor',
+    description: 'Main floor assembly providing base structural foundation.'
+  },
+  'gen3_bottom-pod_ceiling': {
+    title: 'Bottom Pod Ceiling',
+    description: 'Internal ceiling separating bottom and top pod compartments.'
+  },
+  'gen3_top-pod_ceiling': {
+    title: 'Top Pod Ceiling',
+    description: 'Upper ceiling assembly forming the top enclosure.'
+  },
+  'gen3_bottom-pod_left-panel-1': {
+    title: 'Left Panel 1',
+    description: 'Primary left side panel for bottom pod enclosure.'
+  },
+  'gen3_bottom-pod_left-panel-2': {
+    title: 'Left Panel 2',
+    description: 'Secondary left side panel providing additional coverage.'
+  },
+  'gen3_bottom-pod_right-panel-1': {
+    title: 'Right Panel 1',
+    description: 'Primary right side panel for bottom pod enclosure.'
+  },
+  'gen3_bottom-pod_right-panel-2': {
+    title: 'Right Panel 2',
+    description: 'Secondary right side panel providing additional coverage.'
+  },
+  'gen3_bottom-pod_door-left': {
+    title: 'Left Access Door',
+    description: 'Left side access door for bottom pod maintenance.'
+  },
+  'gen3_bottom-pod_door-right': {
+    title: 'Right Access Door',
+    description: 'Right side access door for bottom pod maintenance.'
+  },
+  'gen3_top-pod_left-panel': {
+    title: 'Top Left Panel',
+    description: 'Left side panel for top pod compartment enclosure.'
+  },
+  'gen3_top-pod_right-panel': {
+    title: 'Top Right Panel',
+    description: 'Right side panel for top pod compartment enclosure.'
+  },
+  'gen3_top-pod_back-panel': {
+    title: 'Top Back Panel',
+    description: 'Rear panel providing back enclosure for top pod.'
+  },
+  'gen3_louvers': {
+    title: 'Ventilation Louvers',
+    description: 'Adjustable louvers controlling airflow and ventilation patterns.'
+  },
+  'gen3_bottom-pod_shelves': {
+    title: 'Storage Shelves',
+    description: 'Internal shelving system for equipment and component storage.'
+  },
+  'gen3_busway': {
+    title: 'Electrical Busway',
+    description: 'Power distribution busway providing electrical connectivity throughout system.'
+  },
+  'gen3_bottom-pod_mesh': {
+    title: 'Bottom Mesh Guard',
+    description: 'Protective mesh screening for bottom pod ventilation.'
+  },
+  'gen3_top-pod_mesh': {
+    title: 'Top Mesh Guard',
+    description: 'Protective mesh screening for top pod ventilation.'
+  },
+  'gen3_fans': {
+    title: 'Cooling Fans',
+    description: 'High-efficiency fans providing active cooling and air circulation.'
+  },
+  'gen3_bottom-pod_awnings': {
+    title: 'Bottom Awnings',
+    description: 'Weather protection awnings for bottom pod exterior.'
+  },
+  'gen3_top-pod_awnings': {
+    title: 'Top Awnings',
+    description: 'Weather protection awnings for top pod exterior.'
+  }
+};
+
+function toggleExplodedView() {
+  const svg = document.getElementById('main-svg');
+  const button = document.querySelector('.toggle-btn');
+  const gen3Parts = document.querySelectorAll('.gen3-part');
+  
+  if (isExploded) {
+    svg.classList.remove('exploded');
+    button.textContent = 'Toggle Exploded View';
+    isExploded = false;
+    
+    // Reset all part opacities when exiting exploded view
+    gen3Parts.forEach(part => {
+      part.style.opacity = '';
+    });
+    
+    // Clear highlight tracking
+    highlightedPartId = null;
+    
+    // Hide popup when exiting exploded view
+    hidePartPopup();
+  } else {
+    svg.classList.add('exploded');
+    button.textContent = 'Reset View';
+    isExploded = true;
+  }
+}
+
+// Add hover effects for individual parts when exploded
+document.addEventListener('DOMContentLoaded', function() {
+  const gen3Parts = document.querySelectorAll('.gen3-part');
+  const meshOverlays = document.querySelectorAll('.mesh-overlay');
+  
+  // Create a mapping between overlay IDs and their corresponding mesh element IDs
+  const overlayToMeshMap = {
+    'gen3_bottom-pod_mesh-overlay': 'gen3_bottom-pod_mesh',
+    'gen3_top-pod_mesh-overlay': 'gen3_top-pod_mesh'
+  };
+  
+  gen3Parts.forEach(part => {
+    // Check if this is a mesh overlay
+    const isMeshOverlay = part.classList.contains('mesh-overlay');
+    
+    part.addEventListener('mouseenter', function(event) {
+      if (isExploded) {
+        // If it's a mesh overlay, apply effects to both the overlay and the corresponding mesh
+        if (isMeshOverlay) {
+          const meshId = overlayToMeshMap[this.id];
+          const meshElement = document.getElementById(meshId);
+          
+          // Apply effects to the actual mesh element
+          if (meshElement) {
+            meshElement.style.filter = 'brightness(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.3))';
+            
+            // If in highlight mode and this part is faded, temporarily bring it back to full opacity
+            if (meshElement.style.opacity === '0.1') {
+              meshElement.style.opacity = '1';
+            }
+          }
+          
+          // Show popup with part information for the mesh, not the overlay
+          showPartPopup(meshId, event);
+        } else {
+          // Normal behavior for non-overlay parts
+          this.style.filter = 'brightness(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.3))';
+          this.style.cursor = 'pointer';
+          
+          // If in highlight mode and this part is faded, temporarily bring it back to full opacity
+          if (this.style.opacity === '0.1') {
+            this.style.opacity = '1';
+          }
+          
+          // Show popup with part information
+          showPartPopup(this.id, event);
+        }
+      }
+    });
+    
+    part.addEventListener('mouseleave', function() {
+      // If it's a mesh overlay, apply effects to both the overlay and the corresponding mesh
+      if (isMeshOverlay) {
+        const meshId = overlayToMeshMap[this.id];
+        const meshElement = document.getElementById(meshId);
+        
+        // Reset effects on the actual mesh element
+        if (meshElement) {
+          meshElement.style.filter = '';
+        }
+        
+        // Hide popup
+        hidePartPopup();
+        
+        // If we have a highlighted part and this mesh was temporarily shown during hover,
+        // restore it to the correct state based on whether it's the highlighted part
+        if (highlightedPartId && meshElement) {
+          if (meshId === highlightedPartId) {
+            // This is the highlighted part, keep it at opacity 1
+            meshElement.style.opacity = '1';
+          } else {
+            // This is not the highlighted part, fade it
+            meshElement.style.opacity = '0.1';
+          }
+        }
+      } else {
+        // Normal behavior for non-overlay parts
+        this.style.filter = '';
+        this.style.cursor = '';
+        
+        // Hide popup
+        hidePartPopup();
+        
+        // If we have a highlighted part and this part was temporarily shown during hover,
+        // restore it to the correct state based on whether it's the highlighted part
+        if (highlightedPartId) {
+          if (this.id === highlightedPartId) {
+            // This is the highlighted part, keep it at opacity 1
+            this.style.opacity = '1';
+          } else {
+            // This is not the highlighted part, fade it
+            this.style.opacity = '0.1';
+          }
+        }
+      }
+    });
+    
+    part.addEventListener('mousemove', function(event) {
+      if (isExploded) {
+        // Update popup position as mouse moves
+        updatePopupPosition(event);
+      }
+    });
+    
+    // Add click event to highlight individual parts
+    part.addEventListener('click', function(event) {
+      if (isExploded) {
+        // Prevent event bubbling to document
+        event.stopPropagation();
+        
+        let targetElement = this;
+        let targetId = this.id;
+        
+        // If it's a mesh overlay, get the corresponding mesh element
+        if (isMeshOverlay) {
+          const meshId = overlayToMeshMap[this.id];
+          targetElement = document.getElementById(meshId);
+          targetId = meshId;
+          if (!targetElement) return;
+        }
+        
+        // Check if this specific part is already highlighted
+        if (highlightedPartId === targetId) {
+          // Same part clicked again - remove all highlighting
+          gen3Parts.forEach(p => p.style.opacity = '');
+          highlightedPartId = null;
+        } else {
+          // Different part clicked or first click - highlight this part and fade others
+          gen3Parts.forEach(p => {
+            if (p.classList.contains('mesh-overlay')) {
+              // For mesh overlays, set opacity to match their corresponding mesh
+              const overlayMeshId = overlayToMeshMap[p.id];
+              if (overlayMeshId === targetId) {
+                p.style.opacity = '1';
+              } else {
+                p.style.opacity = '0.1';
+              }
+            } else {
+              // For regular parts
+              if (p.id === targetId) {
+                p.style.opacity = '1';
+              } else {
+                p.style.opacity = '0.1';
+              }
+            }
+          });
+          highlightedPartId = targetId;
+        }
+      }
+    });
+  });
+  
+  // Add click listener to document to clear highlights when clicking elsewhere
+  document.addEventListener('click', function(event) {
+    if (isExploded) {
+      // Check if the click was not on a gen3 part
+      const isGen3Part = event.target.closest('.gen3-part');
+      if (!isGen3Part) {
+        // Clear all highlights
+        gen3Parts.forEach(p => p.style.opacity = '');
+        highlightedPartId = null;
+      }
+    }
+  });
+});
+
+// Function to show part popup
+function showPartPopup(partId, event) {
+  const info = partInfo[partId];
+  const popupElement = document.getElementById('part-popup');
+  const titleElement = document.getElementById('popup-title');
+  const descriptionElement = document.getElementById('popup-description');
+  
+  if (info) {
+    titleElement.textContent = info.title;
+    descriptionElement.textContent = info.description;
+    popupElement.classList.add('visible');
+    updatePopupPosition(event);
+  }
+}
+
+// Function to hide part popup
+function hidePartPopup() {
+  const popupElement = document.getElementById('part-popup');
+  popupElement.classList.remove('visible');
+}
+
+// Function to update popup position
+function updatePopupPosition(event) {
+  const popupElement = document.getElementById('part-popup');
+  const offsetX = 10;
+  const offsetY = -10;
+  
+  // Position popup above and slightly to the right of cursor
+  let x = event.pageX + offsetX;
+  let y = event.pageY + offsetY - popupElement.offsetHeight;
+  
+  // Keep popup within viewport bounds
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const scrollTop = window.pageYOffset;
+  const scrollLeft = window.pageXOffset;
+  
+  // Adjust horizontal position if popup would go off screen
+  if (x + popupElement.offsetWidth > viewportWidth + scrollLeft) {
+    x = event.pageX - popupElement.offsetWidth - offsetX;
+  }
+  
+  // Adjust vertical position if popup would go off screen
+  if (y < scrollTop) {
+    y = event.pageY + offsetY + 20; // Show below cursor instead
+  }
+  
+  popupElement.style.left = x + 'px';
+  popupElement.style.top = y + 'px';
+}
+
+// Function to toggle fans visibility
+function toggleFans() {
+  const checkbox = document.getElementById('fans-toggle');
+  const isVisible = checkbox.checked;
+  
+  // Fan IDs to toggle
+  const fanIds = [
+    'bottom-pod_fan-1',
+    'bottom-pod_fan-2', 
+    'bottom-pod_fan-3',
+    'top-pod_fan-1',
+    'top-pod_fan-2',
+    'top-pod_fan-3',
+    'gen3_bottom-pod_fan-sheet',
+    'gen3_top-pod_fan-sheet'
+  ];
+  
+  fanIds.forEach(fanId => {
+    const fanElement = document.getElementById(fanId);
+    if (fanElement) {
+      fanElement.style.display = isVisible ? '' : 'none';
+    }
+  });
+}

@@ -1,0 +1,554 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.toggle-btn {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #005a99;
+}
+
+.controls {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 2px solid #007acc;
+  border-radius: 3px;
+  margin-right: 8px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark {
+  background-color: #007acc;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-container:hover .checkmark {
+  border-color: #005a99;
+}
+
+.checkbox-container input[type="checkbox"]:checked:hover + .checkmark {
+  background-color: #005a99;
+}
+
+.part-popup {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  z-index: 1000;
+  max-width: 250px;
+  font-size: 14px;
+}
+
+.part-popup.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-title {
+  margin: 0 0 6px 0;
+  color: #4fc3f7;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.popup-description {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.svg-container {
+  display: inline-block;
+  width: 100%;
+  /* max-width: 1200px; */
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+  overflow: hidden;
+}
+
+#main-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Animation styles for exploded view */
+.gen3-part {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Mesh overlay styling */
+.mesh-overlay {
+  fill-opacity: 0; /* Completely transparent */
+  stroke: none;
+  pointer-events: all; /* Make sure it captures all pointer events */
+}
+
+/* Exploded state transforms for different parts */
+.exploded #gen3_brackets-back_top-side {
+  transform: translate(0, -80px);
+}
+
+.exploded #gen3_brackets-front_top-side {
+  transform: translate(0, -80px);
+}
+
+.exploded #gen3_brackets-back_bottom-side {
+  transform: translate(0, 80px);
+}
+
+.exploded #gen3_brackets-front_bottom-side {
+  transform: translate(0, 80px);
+}
+
+.exploded #gen3_bottom-pod_floor {
+  transform: translate(0, 80px);
+}
+
+.exploded #gen3_bottom-pod_ceiling {
+  transform: translate(100px, -90px);
+}
+
+.exploded #gen3_top-pod_ceiling {
+  transform: translate(0, -80px);
+}
+
+.exploded #gen3_bottom-pod_left-panel-1 {
+  transform: translate(-150px, -40px);
+}
+
+.exploded #gen3_bottom-pod_left-panel-2 {
+  transform: translate(-100px, -70px);
+}
+
+.exploded #gen3_bottom-pod_right-panel-1 {
+  transform: translate(220px, 80px);
+}
+
+.exploded #gen3_bottom-pod_right-panel-2 {
+  transform: translate(350px, 0px);
+}
+
+.exploded #gen3_bottom-pod_door-left {
+  transform: translate(-120px, -70px);
+}
+
+.exploded #gen3_bottom-pod_door-right {
+  transform: translate(270px, 50px);
+}
+
+.exploded #gen3_top-pod_left-panel {
+  transform: translate(-140px, -140px);
+}
+
+.exploded #gen3_top-pod_right-panel {
+  transform: translate(290px, 10px);
+}
+
+.exploded #gen3_top-pod_back-panel {
+  transform: translate(150px, -160px);
+}
+
+.exploded #gen3_louvers {
+  transform: translate(350px, -150px);
+}
+
+.exploded #gen3_bottom-pod_shelves {
+  transform: translate(60px, 40px);
+}
+
+.exploded #gen3_busway {
+  transform: translate(10px, -20px);
+}
+
+.exploded #gen3_bottom-pod_mesh {
+  transform: translate(-60px, 60px);
+}
+
+.exploded #gen3_bottom-pod_mesh-overlay {
+  cursor: pointer;
+  transform: translate(-60px, 40px) skewY(30deg);
+}
+
+.exploded #gen3_top-pod_mesh {
+  transform: translate(-50px, -20px);
+}
+
+.exploded #gen3_top-pod_mesh-overlay {
+  cursor: pointer;
+  transform: translate(-50px, 70px) skewY(30deg);
+}
+
+.exploded #gen3_fans {
+  transform: translate(-360px, 110px);
+}
+
+.exploded #gen3_bottom-pod_awnings,
+.exploded #gen3_top-pod_awnings {
+  transform: translate(-550px, 100px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet Styles (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+  body {
+    padding: 15px;
+  }
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  .toggle-btn {
+    padding: 10px 20px;
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .controls {
+    margin-bottom: 15px;
+  }
+  
+  .checkbox-container {
+    font-size: 15px;
+    margin-left: 15px;
+  }
+  
+  .svg-container {
+    min-width: 400px;
+    min-height: 300px;
+    margin: 0 auto;
+  }
+  
+  #main-svg {
+    max-width: 900px;
+    max-height: 600px;
+  }
+  
+  .part-popup {
+    max-width: 200px;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  
+  .popup-title {
+    font-size: 15px;
+  }
+  
+  .popup-description {
+    font-size: 12px;
+  }
+}
+
+/* Mobile Styles (480px - 767px) */
+@media screen and (max-width: 767px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 0 5px;
+  }
+  
+  .toggle-btn {
+    width: 100%;
+    /* max-width: 300px; */
+    padding: 12px 16px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .controls {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .checkbox-container {
+    font-size: 16px;
+    margin-left: 0;
+  }
+  
+  .checkmark {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+  }
+  
+  .svg-container {
+    min-width: unset;
+    width: 100%;
+    min-height: 250px;
+    border-width: 1px;
+  }
+  
+  #main-svg {
+    max-width: 100%;
+    max-height: 400px;
+  }
+  
+  .part-popup {
+    max-width: 180px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  .popup-title {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  
+  .popup-description {
+    font-size: 11px;
+  }
+  
+  /* Reduce exploded view transforms for smaller screens */
+  .exploded #gen3_brackets-back_top-side {
+    transform: translate(0, -40px);
+  }
+  
+  .exploded #gen3_brackets-front_top-side {
+    transform: translate(0, -40px);
+  }
+  
+  .exploded #gen3_top-pod_ceiling {
+    transform: translate(0, -60px);
+  }
+  
+  .exploded #gen3_bottom-pod_ceiling {
+    transform: translate(0, 30px);
+  }
+  
+  .exploded #gen3_bottom-pod_floor {
+    transform: translate(0, 60px);
+  }
+  
+  .exploded #gen3_brackets-back_bottom-side {
+    transform: translate(0, 80px);
+  }
+  
+  .exploded #gen3_brackets-front_bottom-side {
+    transform: translate(0, 80px);
+  }
+  
+  .exploded #gen3_bottom-pod_left-panel-1,
+  .exploded #gen3_bottom-pod_left-panel-2 {
+    transform: translate(-30px, 0);
+  }
+  
+  .exploded #gen3_bottom-pod_right-panel-1,
+  .exploded #gen3_bottom-pod_right-panel-2 {
+    transform: translate(30px, 0);
+  }
+  
+  .exploded #gen3_bottom-pod_door-left {
+    transform: translate(-40px, 0) rotateY(-30deg);
+  }
+  
+  .exploded #gen3_bottom-pod_door-right {
+    transform: translate(40px, 0) rotateY(30deg);
+  }
+  
+  .exploded #gen3_top-pod_door-left {
+    transform: translate(-40px, 0) rotateY(-30deg);
+  }
+  
+  .exploded #gen3_top-pod_door-right {
+    transform: translate(40px, 0) rotateY(30deg);
+  }
+  
+  .exploded #gen3_mesh-overlay {
+    transform: translate(-20px, 30px) skewY(15deg);
+  }
+  
+  .exploded #gen3_fans {
+    transform: translate(-180px, 55px);
+  }
+  
+  .exploded #gen3_bottom-pod_awnings,
+  .exploded #gen3_top-pod_awnings {
+    transform: translate(-275px, 50px);
+  }
+}
+
+/* Small Mobile Styles (up to 479px) */
+@media screen and (max-width: 479px) {
+  body {
+    padding: 8px;
+  }
+  
+  .toggle-btn {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+  
+  .checkbox-container {
+    font-size: 15px;
+  }
+  
+  .checkmark {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  .svg-container {
+    min-height: 200px;
+  }
+  
+  #main-svg {
+    max-height: 300px;
+  }
+  
+  .part-popup {
+    max-width: 150px;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  .popup-title {
+    font-size: 13px;
+  }
+  
+  .popup-description {
+    font-size: 10px;
+  }
+  
+  /* Further reduce transforms for very small screens */
+  .exploded #gen3_brackets-back_top-side,
+  .exploded #gen3_brackets-front_top-side {
+    transform: translate(0, -30px);
+  }
+  
+  .exploded #gen3_top-pod_ceiling {
+    transform: translate(0, -45px);
+  }
+  
+  .exploded #gen3_bottom-pod_ceiling {
+    transform: translate(0, 25px);
+  }
+  
+  .exploded #gen3_bottom-pod_floor {
+    transform: translate(0, 45px);
+  }
+  
+  .exploded #gen3_brackets-back_bottom-side,
+  .exploded #gen3_brackets-front_bottom-side {
+    transform: translate(0, 60px);
+  }
+  
+  .exploded #gen3_bottom-pod_left-panel-1,
+  .exploded #gen3_bottom-pod_left-panel-2 {
+    transform: translate(-20px, 0);
+  }
+  
+  .exploded #gen3_bottom-pod_right-panel-1,
+  .exploded #gen3_bottom-pod_right-panel-2 {
+    transform: translate(20px, 0);
+  }
+  
+  .exploded #gen3_fans {
+    transform: translate(-120px, 40px);
+  }
+  
+  .exploded #gen3_bottom-pod_awnings,
+  .exploded #gen3_top-pod_awnings {
+    transform: translate(-180px, 35px);
+  }
+}
+
+/* Touch-friendly enhancements */
+@media (hover: none) and (pointer: coarse) {
+  .toggle-btn {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+  
+  .checkbox-container {
+    padding: 8px;
+    margin: 4px;
+  }
+  
+  .checkmark {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Make SVG parts more touch-friendly */
+  .gen3-part {
+    cursor: pointer;
+  }
+  
+  .part-popup {
+    font-size: 14px;
+    padding: 12px 16px;
+    max-width: 220px;
+  }
+}
