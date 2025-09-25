@@ -87,9 +87,65 @@ const partInfo = {
     title: 'Top Mesh Guard',
     description: 'Protective mesh screening for top pod ventilation.'
   },
+  'gen3_bottom-pod_mesh-overlay': {
+    title: 'Bottom Mesh Guard',
+    description: 'Interactive overlay for bottom pod mesh screening.'
+  },
+  'gen3_top-pod_mesh-overlay': {
+    title: 'Top Mesh Guard',
+    description: 'Interactive overlay for top pod mesh screening.'
+  },
   'gen3_fans': {
     title: 'Cooling Fans',
     description: 'High-efficiency fans providing active cooling and air circulation.'
+  },
+  'gen3_fan-1': {
+    title: 'Centrifugal Cooling Fan',
+    description: 'Individual high-efficiency fan providing active cooling and air circulation.'
+  },
+  'gen3_fan-2': {
+    title: 'Centrifugal Cooling Fan',
+    description: 'Individual high-efficiency fan providing active cooling and air circulation.'
+  },
+  'gen3_fan-3': {
+    title: 'Centrifugal Cooling Fan',
+    description: 'Individual high-efficiency fan providing active cooling and air circulation.'
+  },
+  'gen3_fan-4': {
+    title: 'Centrifugal Cooling Fan',
+    description: 'Individual high-efficiency fan providing active cooling and air circulation.'
+  },
+  'gen3_fan-5': {
+    title: 'Centrifugal Cooling Fan',
+    description: 'Individual high-efficiency fan providing active cooling and air circulation.'
+  },
+  'gen3_fan-6': {
+    title: 'Centrifugal Cooling Fan',
+    description: 'Individual high-efficiency fan providing active cooling and air circulation.'
+  },
+  'gen3_fan-1-base': {
+    title: 'Fan 1 Base Structure',
+    description: 'Structural base component for fan unit 1 mounting and support.'
+  },
+  'gen3_fan-2-base': {
+    title: 'Fan 2 Base Structure',
+    description: 'Structural base component for fan unit 2 mounting and support.'
+  },
+  'gen3_fan-3-base': {
+    title: 'Fan 3 Base Structure',
+    description: 'Structural base component for fan unit 3 mounting and support.'
+  },
+  'gen3_fan-4-base': {
+    title: 'Fan 4 Base Structure',
+    description: 'Structural base component for fan unit 4 mounting and support.'
+  },
+  'gen3_fan-5-base': {
+    title: 'Fan 5 Base Structure',
+    description: 'Structural base component for fan unit 5 mounting and support.'
+  },
+  'gen3_fan-6-base': {
+    title: 'Fan 6 Base Structure',
+    description: 'Structural base component for fan unit 6 mounting and support.'
   },
   'gen3_bottom-pod_awnings': {
     title: 'Bottom Awnings',
@@ -113,7 +169,12 @@ function toggleExplodedView() {
     
     // Reset all part opacities when exiting exploded view
     gen3Parts.forEach(part => {
+      // Skip the parent gen3_fans group to avoid conflicts
+      if (part.id === 'gen3_fans') {
+        return;
+      }
       part.style.opacity = '';
+      part.style.filter = '';
     });
     
     // Clear highlight tracking
@@ -144,9 +205,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const isMeshOverlay = part.classList.contains('mesh-overlay');
     
     part.addEventListener('mouseenter', function(event) {
+      console.log('Mouse enter on:', part.id, 'isMeshOverlay:', isMeshOverlay);
       if (isExploded) {
         // If it's a mesh overlay, apply effects to both the overlay and the corresponding mesh
         if (isMeshOverlay) {
+          console.log('Processing mesh overlay hover:', part.id);
           const meshId = overlayToMeshMap[this.id];
           const meshElement = document.getElementById(meshId);
           
@@ -234,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add click event to highlight individual parts
     part.addEventListener('click', function(event) {
+      console.log('Click detected on:', part.id, 'isMeshOverlay:', isMeshOverlay);
       if (isExploded) {
         // Prevent event bubbling to document
         event.stopPropagation();
@@ -241,8 +305,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let targetElement = this;
         let targetId = this.id;
         
+        console.log('Clicked on element:', targetId); // Debug log
+        
         // If it's a mesh overlay, get the corresponding mesh element
         if (isMeshOverlay) {
+          console.log('Processing mesh overlay click:', part.id);
           const meshId = overlayToMeshMap[this.id];
           targetElement = document.getElementById(meshId);
           targetId = meshId;
@@ -252,25 +319,43 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if this specific part is already highlighted
         if (highlightedPartId === targetId) {
           // Same part clicked again - remove all highlighting
-          gen3Parts.forEach(p => p.style.opacity = '');
+          gen3Parts.forEach(p => {
+            // Skip the parent gen3_fans group to avoid conflicts
+            if (p.id === 'gen3_fans') {
+              return;
+            }
+            p.style.opacity = '';
+            p.style.filter = '';
+          });
           highlightedPartId = null;
+          console.log('Cleared highlighting'); // Debug log
         } else {
           // Different part clicked or first click - highlight this part and fade others
           gen3Parts.forEach(p => {
+            // Skip the parent gen3_fans group to avoid conflicts
+            if (p.id === 'gen3_fans') {
+              return;
+            }
+            
             if (p.classList.contains('mesh-overlay')) {
               // For mesh overlays, set opacity to match their corresponding mesh
               const overlayMeshId = overlayToMeshMap[p.id];
               if (overlayMeshId === targetId) {
                 p.style.opacity = '1';
+                p.style.filter = 'brightness(1.2) drop-shadow(2px 2px 6px rgba(30, 117, 223, 0.8))';
               } else {
                 p.style.opacity = '0.1';
+                p.style.filter = '';
               }
             } else {
               // For regular parts
               if (p.id === targetId) {
                 p.style.opacity = '1';
+                p.style.filter = 'brightness(1.2) drop-shadow(2px 2px 6px rgba(30, 117, 223, 0.8))';
+                console.log('Highlighted element:', p.id); // Debug log
               } else {
                 p.style.opacity = '0.1';
+                p.style.filter = '';
               }
             }
           });
@@ -287,7 +372,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const isGen3Part = event.target.closest('.gen3-part');
       if (!isGen3Part) {
         // Clear all highlights
-        gen3Parts.forEach(p => p.style.opacity = '');
+        gen3Parts.forEach(p => {
+          // Skip the parent gen3_fans group to avoid conflicts
+          if (p.id === 'gen3_fans') {
+            return;
+          }
+          p.style.opacity = '';
+          p.style.filter = '';
+        });
         highlightedPartId = null;
       }
     }
@@ -352,20 +444,18 @@ function toggleFans() {
   
   // Fan IDs to toggle
   const fanIds = [
-    'bottom-pod_fan-1',
-    'bottom-pod_fan-2', 
-    'bottom-pod_fan-3',
-    'top-pod_fan-1',
-    'top-pod_fan-2',
-    'top-pod_fan-3',
-    'gen3_bottom-pod_fan-sheet',
-    'gen3_top-pod_fan-sheet'
+    'gen3_fan-1',
+    'gen3_fan-2',
+    'gen3_fan-3',
+    'gen3_fan-4',
+    'gen3_fan-5',
+    'gen3_fan-6'
   ];
   
   fanIds.forEach(fanId => {
     const fanElement = document.getElementById(fanId);
     if (fanElement) {
-      fanElement.style.display = isVisible ? '' : 'none';
+      fanElement.style.opacity = isVisible ? '' : '0';
     }
   });
 }

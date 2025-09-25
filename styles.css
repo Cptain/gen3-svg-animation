@@ -40,52 +40,53 @@ body {
   gap: 10px;
 }
 
-.checkbox-container {
+/* Toggle slider styling */
+.toggle-container {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
   font-size: 16px;
   color: #333;
   margin: 0;
+  gap: 12px;
 }
 
-.checkbox-container input[type="checkbox"] {
+.toggle-container input[type="checkbox"] {
   display: none;
 }
 
-.checkmark {
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
-  border: 2px solid #007acc;
-  border-radius: 3px;
-  margin-right: 8px;
+.toggle-slider {
   position: relative;
-  transition: all 0.3s ease;
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: background-color 0.3s ease;
 }
 
-.checkbox-container input[type="checkbox"]:checked + .checkmark {
-  background-color: #007acc;
-}
-
-.checkbox-container input[type="checkbox"]:checked + .checkmark:after {
+.toggle-slider::before {
   content: "";
   position: absolute;
-  left: 6px;
   top: 2px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.checkbox-container:hover .checkmark {
-  border-color: #005a99;
+.toggle-container input[type="checkbox"]:checked + .toggle-slider {
+  background-color: #4CAF50;
 }
 
-.checkbox-container input[type="checkbox"]:checked:hover + .checkmark {
-  background-color: #005a99;
+.toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
+  transform: translateX(26px);
+}
+
+.toggle-container:hover .toggle-slider {
+  opacity: 0.8;
 }
 
 .part-popup {
@@ -237,7 +238,7 @@ body {
 
 .exploded #gen3_bottom-pod_mesh-overlay {
   cursor: pointer;
-  transform: translate(-60px, 40px) skewY(30deg);
+  transform: translate(-61px, 384px) skewY(30deg);
 }
 
 .exploded #gen3_top-pod_mesh {
@@ -246,16 +247,44 @@ body {
 
 .exploded #gen3_top-pod_mesh-overlay {
   cursor: pointer;
-  transform: translate(-50px, 70px) skewY(30deg);
+  transform: translate(-52px, -179px) skewY(30deg);
 }
 
-.exploded #gen3_fans {
-  transform: translate(-360px, 110px);
+/* Fan units (main mechanisms) move together as a group, further back */
+.exploded #gen3_fan-1,
+.exploded #gen3_fan-2,
+.exploded #gen3_fan-3,
+.exploded #gen3_fan-4,
+.exploded #gen3_fan-5,
+.exploded #gen3_fan-6 {
+  transform: translate(-330px, 50px);
+}
+
+/* Fan bases, awning bars, and overlays move with awnings */
+.exploded #gen3_fan-1-base,
+.exploded #gen3_fan-2-base,
+.exploded #gen3_fan-3-base,
+.exploded #gen3_fan-4-base,
+.exploded #gen3_fan-5-base,
+.exploded #gen3_fan-6-base,
+.exploded #gen3_fan-1_awning-bar,
+.exploded #gen3_fan-2_awning-bar,
+.exploded #gen3_fan-3_awning-bar,
+.exploded #gen3_fan-4_awning-bar,
+.exploded #gen3_fan-5_awning-bar,
+.exploded #gen3_fan-6_awning-bar,
+.exploded #fan-1_overlay,
+.exploded #fan-2_overlay,
+.exploded #fan-3_overlay,
+.exploded #fan-4_overlay,
+.exploded #fan-5_overlay,
+.exploded #fan-6_overlay {
+  transform: translate(-510px, 70px);
 }
 
 .exploded #gen3_bottom-pod_awnings,
 .exploded #gen3_top-pod_awnings {
-  transform: translate(-550px, 100px);
+  transform: translate(-510px, 70px);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -280,7 +309,7 @@ body {
     margin-bottom: 15px;
   }
   
-  .checkbox-container {
+  .toggle-container {
     font-size: 15px;
     margin-left: 15px;
   }
@@ -335,15 +364,23 @@ body {
     justify-content: center;
   }
   
-  .checkbox-container {
+  .toggle-container {
     font-size: 16px;
     margin-left: 0;
   }
   
-  .checkmark {
+  .toggle-slider {
+    width: 54px;
+    height: 26px;
+  }
+  
+  .toggle-slider::before {
     width: 22px;
     height: 22px;
-    margin-right: 10px;
+  }
+  
+  .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
+    transform: translateX(28px);
   }
   
   .svg-container {
@@ -432,8 +469,36 @@ body {
     transform: translate(-20px, 30px) skewY(15deg);
   }
   
-  .exploded #gen3_fans {
-    transform: translate(-180px, 55px);
+  /* Individual fan units move further back than awning components */
+  .exploded #gen3_fan-1,
+  .exploded #gen3_fan-2,
+  .exploded #gen3_fan-3,
+  .exploded #gen3_fan-4,
+  .exploded #gen3_fan-5,
+  .exploded #gen3_fan-6 {
+    transform: translate(-240px, 70px);
+  }
+
+  /* Fan bases, awning bars, and overlays move with awnings */
+  .exploded #gen3_fan-1-base,
+  .exploded #gen3_fan-2-base,
+  .exploded #gen3_fan-3-base,
+  .exploded #gen3_fan-4-base,
+  .exploded #gen3_fan-5-base,
+  .exploded #gen3_fan-6-base,
+  .exploded #gen3_fan-1_awning-bar,
+  .exploded #gen3_fan-2_awning-bar,
+  .exploded #gen3_fan-3_awning-bar,
+  .exploded #gen3_fan-4_awning-bar,
+  .exploded #gen3_fan-5_awning-bar,
+  .exploded #gen3_fan-6_awning-bar,
+  .exploded #fan-1_overlay,
+  .exploded #fan-2_overlay,
+  .exploded #fan-3_overlay,
+  .exploded #fan-4_overlay,
+  .exploded #fan-5_overlay,
+  .exploded #fan-6_overlay {
+    transform: translate(-275px, 50px);
   }
   
   .exploded #gen3_bottom-pod_awnings,
@@ -453,14 +518,22 @@ body {
     padding: 10px 14px;
   }
   
-  .checkbox-container {
+  .toggle-container {
     font-size: 15px;
   }
   
-  .checkmark {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
+  .toggle-slider {
+    width: 48px;
+    height: 22px;
+  }
+  
+  .toggle-slider::before {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
+    transform: translateX(26px);
   }
   
   .svg-container {
@@ -518,8 +591,36 @@ body {
     transform: translate(20px, 0);
   }
   
-  .exploded #gen3_fans {
-    transform: translate(-120px, 40px);
+  /* Individual fan units move further back than awning components */
+  .exploded #gen3_fan-1,
+  .exploded #gen3_fan-2,
+  .exploded #gen3_fan-3,
+  .exploded #gen3_fan-4,
+  .exploded #gen3_fan-5,
+  .exploded #gen3_fan-6 {
+    transform: translate(-160px, 50px);
+  }
+
+  /* Fan bases, awning bars, and overlays move with awnings */
+  .exploded #gen3_fan-1-base,
+  .exploded #gen3_fan-2-base,
+  .exploded #gen3_fan-3-base,
+  .exploded #gen3_fan-4-base,
+  .exploded #gen3_fan-5-base,
+  .exploded #gen3_fan-6-base,
+  .exploded #gen3_fan-1_awning-bar,
+  .exploded #gen3_fan-2_awning-bar,
+  .exploded #gen3_fan-3_awning-bar,
+  .exploded #gen3_fan-4_awning-bar,
+  .exploded #gen3_fan-5_awning-bar,
+  .exploded #gen3_fan-6_awning-bar,
+  .exploded #fan-1_overlay,
+  .exploded #fan-2_overlay,
+  .exploded #fan-3_overlay,
+  .exploded #fan-4_overlay,
+  .exploded #fan-5_overlay,
+  .exploded #fan-6_overlay {
+    transform: translate(-180px, 35px);
   }
   
   .exploded #gen3_bottom-pod_awnings,
@@ -535,14 +636,23 @@ body {
     font-size: 16px;
   }
   
-  .checkbox-container {
+  .toggle-container {
     padding: 8px;
     margin: 4px;
   }
   
-  .checkmark {
+  .toggle-slider {
+    width: 56px;
+    height: 28px;
+  }
+  
+  .toggle-slider::before {
     width: 24px;
     height: 24px;
+  }
+  
+  .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
+    transform: translateX(28px);
   }
   
   /* Make SVG parts more touch-friendly */

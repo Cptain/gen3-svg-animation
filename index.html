@@ -11,10 +11,10 @@
       <button class="toggle-btn" onclick="toggleExplodedView()">Toggle Exploded View</button>
 
       <div class="controls">
-        <label class="checkbox-container">
+        <label class="toggle-container">
           <input type="checkbox" id="fans-toggle" checked onchange="toggleFans()" />
-          <span class="checkmark"></span>
-          With Fans
+          <span class="toggle-slider"></span>
+          Fans
         </label>
       </div>
 
@@ -650,21 +650,21 @@
             <polygon style="fill:#4c92ce" points="809.56 243.38 805.18 245.9 987.64 351.24 992.01 348.72 809.56 243.38" />
           </g>
           <!-- Mesh overlay elements for JavaScript interaction -->
-          <g id="gen3_bottom-pod_mesh-overlay" class="mesh-overlay" style="opacity:0;">
-            <rect x="809.56" y="243.38" width="182.45" height="347.01" style="fill:rgba(30,117,223,0.3);stroke:none;"/>
+          <g id="gen3_bottom-pod_mesh-overlay" class="mesh-overlay gen3-part" style="opacity:0;">
+            <rect x="809.56" y="243.38" width="182.45" height="250" style="fill:rgba(30,117,223,0.3);stroke:none;"/>
           </g>
-          <g id="gen3_top-pod_mesh-overlay" class="mesh-overlay" style="opacity:0;">
-            <rect x="809.56" y="485.07" width="182.45" height="347.01" style="fill:rgba(30,117,223,0.3);stroke:none;"/>
+          <g id="gen3_top-pod_mesh-overlay" class="mesh-overlay gen3-part" style="opacity:0;">
+            <rect x="809.56" y="485.07" width="182.45" height="250" style="fill:rgba(30,117,223,0.3);stroke:none;"/>
           </g>
-          <g id="gen3_fans" class="gen3-part">
-            <g id="gen3_Axo_Extrusion">
+          <g id="gen3_fans">
+            <g id="gen3_fan-1-base" class="gen3-part">
               <g id="gen3_Axo_Surface_x2A__x2A_">
                 <polygon id="Axo_panel" style="fill:#7b7c7c" points="928.26 830.3 928.26 767.52 929.68 766.71 929.68 829.48 928.26 830.3" />
                 <polygon id="Axo_panel1" data-name="Axo_panel" style="fill:#bcbdbd" points="928.26 767.52 770.59 678.97 772 678.16 929.68 766.71 928.26 767.52" />
               </g>
               <polygon id="Axo_base" style="fill:#9b9b9b" points="928.26 830.3 770.86 739.42 770.59 678.97 928.26 767.52 928.26 830.3" />
             </g>
-            <g id="gen3_fan-1">
+            <g id="gen3_fan-1" class="gen3-part">
               <path id="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M910.16,820.98l38.84-22.43c6.23-3.6,8.05-11.76,3.93-17.66l-6.49-9.31" />
               <path id="Axo_Path1" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M857.68,734.32l37.66-21.74c3.45-1.99,7.81-1.4,10.6,1.45l6.27,6.4" />
               <g id="gen3_Axo_Extrusion1" data-name="Axo_Extrusion">
@@ -700,20 +700,20 @@
                 </g>
               </g>
             </g>
-            <g id="gen3_fan-1_awning-bar">
+            <g id="gen3_fan-1_awning-bar" class="gen3-part">
               <polygon style="fill:#adadad" points="766.49 741.95 770.86 739.42 928.26 830.3 923.89 832.82 766.49 741.95" />
               <polygon style="fill:#d6d7d7" points="766.49 762.14 766.49 741.95 923.89 832.82 923.89 853.02 766.49 762.14" />
               <polygon style="fill:#828282" points="923.89 832.82 923.89 853.07 928.26 850.55 928.26 830.3 923.89 832.82" />
             </g>
-            <polygon id="fan-1_overlay" style="fill:#9b9b9b" points="912.23 765.5 928.26 774.75 928.26 830.3 912.2 820.98 912.23 765.5" />
-            <g id="gen3_Axo_Extrusion4" data-name="Axo_Extrusion">
+            <polygon id="fan-1_overlay" class="gen3-part" style="fill:#9b9b9b" points="912.23 765.5 928.26 774.75 928.26 830.3 912.2 820.98 912.23 765.5" />
+            <g id="gen3_fan-2-base" class="gen3-part" data-name="Axo_Extrusion">
               <g id="gen3_Axo_Surface_x2A__x2A_1" data-name="Axo_Surface_x2A__x2A_">
                 <polygon id="Axo_panel6" data-name="Axo_panel" style="fill:#7b7c7c" points="928.26 749.48 928.26 688.84 929.68 688.02 929.68 748.67 928.26 749.48" />
                 <polygon id="Axo_panel7" data-name="Axo_panel" style="fill:#bcbdbd" points="928.26 688.84 770.59 599.82 772 599 929.68 688.02 928.26 688.84" />
               </g>
               <polygon id="Axo_base2" data-name="Axo_base" style="fill:#9b9b9b" points="928.26 749.48 770.86 658.63 770.59 599.82 928.26 688.84 928.26 749.48" />
             </g>
-            <g id="gen3_fan-2">
+            <g id="gen3_fan-2" class="gen3-part">
               <path id="Axo_Path3" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M841.31,700.52l38.84-22.43c6.23-3.6,8.05-11.76,3.93-17.66l-6.49-9.31" />
               <path id="Axo_Path4" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M788.83,613.86l37.66-21.74c3.45-1.99,7.81-1.4,10.6,1.45l6.27,6.4" />
               <g id="gen3_Axo_Extrusion5" data-name="Axo_Extrusion">
@@ -749,20 +749,20 @@
                 </g>
               </g>
             </g>
-            <g id="gen3_fan-2_awning-bar">
+            <g id="gen3_fan-2_awning-bar" class="gen3-part">
               <polygon style="fill:#d6d7d7" points="766.49 681.36 766.49 661.16 923.89 752.04 923.89 772.23 766.49 681.36" />
               <polygon style="fill:#828282" points="923.89 752.01 923.89 772.26 928.26 769.73 928.26 749.48 923.89 752.01" />
               <polygon style="fill:#adadad" points="766.49 661.15 770.86 658.63 928.26 749.5 923.89 752.03 766.49 661.15" />
             </g>
-            <polygon id="fan-2_overlay" style="fill:#9b9b9b" points="843.38 700.59 923.52 746.46 923.89 691.31 843.35 645.09 843.38 700.59" />
-            <g id="gen3_Axo_Extrusion8" data-name="Axo_Extrusion">
+            <polygon id="fan-2_overlay" class="gen3-part" style="fill:#9b9b9b" points="843.38 700.59 923.52 746.46 923.89 691.31 843.35 645.09 843.38 700.59" />
+            <g id="gen3_fan-3-base" class="gen3-part" data-name="Axo_Extrusion">
               <g id="gen3_Axo_Surface_x2A__x2A_2" data-name="Axo_Surface_x2A__x2A_">
                 <polygon id="Axo_panel12" data-name="Axo_panel" style="fill:#7b7c7c" points="928.26 668.64 928.26 607.99 929.68 607.18 929.68 667.82 928.26 668.64" />
                 <polygon id="Axo_panel13" data-name="Axo_panel" style="fill:#bcbdbd" points="928.26 607.99 770.59 518.98 772 518.16 929.68 607.18 928.26 607.99" />
               </g>
               <polygon id="Axo_base4" data-name="Axo_base" style="fill:#9b9b9b" points="928.26 668.64 770.86 577.78 770.59 518.98 928.26 607.99 928.26 668.64" />
             </g>
-            <g id="gen3_fan-3">
+            <g id="gen3_fan-3" class="gen3-part">
               <path id="Axo_Path6" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M910.16,658.8l38.84-22.43c6.23-3.6,8.05-11.76,3.93-17.66l-6.49-9.31" />
               <path id="Axo_Path7" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M857.67,572.14l37.66-21.74c3.45-1.99,7.81-1.4,10.6,1.45l6.27,6.4" />
               <g id="gen3_Axo_Extrusion9" data-name="Axo_Extrusion">
@@ -798,20 +798,20 @@
                 </g>
               </g>
             </g>
-            <g id="gen3_fan-3_awning-bar">
+            <g id="gen3_fan-3_awning-bar" class="gen3-part">
               <polygon style="fill:#adadad" points="766.49 580.24 770.86 577.72 928.26 668.59 923.89 671.12 766.49 580.24" />
               <polygon style="fill:#d6d7d7" points="766.49 600.44 766.49 580.24 923.89 671.12 923.89 691.31 766.49 600.44" />
               <polygon style="fill:#828282" points="923.89 671.11 923.89 691.36 928.26 688.84 928.26 668.59 923.89 671.11" />
             </g>
-            <polygon id="fan-3_overlay" style="fill:#9b9b9b" points="912.23 601.74 928.26 611.04 928.26 668.64 912.2 659.32 912.23 601.74" />
-            <g id="gen3_Axo_Extrusion12" data-name="Axo_Extrusion">
+            <polygon id="fan-3_overlay" class="gen3-part" style="fill:#9b9b9b" points="912.23 601.74 928.26 611.04 928.26 668.64 912.2 659.32 912.23 601.74" />
+            <g id="gen3_fan-4-base" class="gen3-part" data-name="Axo_Extrusion">
               <g id="gen3_Axo_Surface_x2A__x2A_3" data-name="Axo_Surface_x2A__x2A_">
                 <polygon id="Axo_panel18" data-name="Axo_panel" style="fill:#7b7c7c" points="928.26 585.79 928.26 523.02 929.68 522.2 929.68 584.97 928.26 585.79" />
                 <polygon id="Axo_panel19" data-name="Axo_panel" style="fill:#bcbdbd" points="928.26 523.02 770.59 434.47 772 433.65 929.68 522.2 928.26 523.02" />
               </g>
               <polygon id="Axo_base6" data-name="Axo_base" style="fill:#9b9b9b" points="928.26 585.79 770.86 494.91 770.59 434.47 928.26 523.02 928.26 585.79" />
             </g>
-            <g id="gen3_fan-4">
+            <g id="gen3_fan-4" class="gen3-part">
               <path id="Axo_Path9" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M841.31,537.52l38.84-22.43c6.23-3.6,8.05-11.76,3.93-17.66l-6.49-9.31" />
               <path id="Axo_Path10" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M788.83,450.86l37.66-21.74c3.45-1.99,7.81-1.4,10.6,1.45l6.27,6.4" />
               <g id="gen3_Axo_Extrusion13" data-name="Axo_Extrusion">
@@ -847,20 +847,20 @@
                 </g>
               </g>
             </g>
-            <g id="gen3_fan-4_awning-bar">
+            <g id="gen3_fan-4_awning-bar" class="gen3-part">
               <polygon style="fill:#adadad" points="766.49 497.44 770.86 494.91 928.26 585.79 923.89 588.31 766.49 497.44" />
               <polygon style="fill:#d6d7d7" points="766.49 517.63 766.49 497.44 923.89 588.31 923.89 608.51 766.49 517.63" />
               <polygon style="fill:#828282" points="923.89 588.31 923.89 608.56 928.26 606.04 928.26 585.79 923.89 588.31" />
             </g>
-            <polygon id="fan-4_overlay" style="fill:#9b9b9b" points="843.39 481.29 928.26 530.21 928.26 585.79 843.36 536.77 843.39 481.29" />
-            <g id="gen3_Axo_Extrusion16" data-name="Axo_Extrusion">
+            <polygon id="fan-4_overlay" class="gen3-part" style="fill:#9b9b9b" points="843.39 481.29 928.26 530.21 928.26 585.79 843.36 536.77 843.39 481.29" />
+            <g id="gen3_fan-5-base" class="gen3-part" data-name="Axo_Extrusion">
               <g id="gen3_Axo_Surface_x2A__x2A_4" data-name="Axo_Surface_x2A__x2A_">
                 <polygon id="Axo_panel24" data-name="Axo_panel" style="fill:#7b7c7c" points="928.26 504.98 928.26 444.33 929.68 443.51 929.68 504.16 928.26 504.98" />
                 <polygon id="Axo_panel25" data-name="Axo_panel" style="fill:#bcbdbd" points="928.26 444.33 770.59 355.31 772 354.5 929.68 443.51 928.26 444.33" />
               </g>
               <polygon id="Axo_base8" data-name="Axo_base" style="fill:#9b9b9b" points="928.26 504.98 770.86 414.12 770.59 355.31 928.26 444.33 928.26 504.98" />
             </g>
-            <g id="gen3_fan-5">
+            <g id="gen3_fan-5" class="gen3-part">
               <path id="Axo_Path12" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M911.46,493.64l38.84-22.43c6.23-3.6,8.05-11.76,3.93-17.66l-6.49-9.31" />
               <path id="Axo_Path13" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M858.98,406.97l37.66-21.74c3.45-1.99,7.81-1.4,10.6,1.45l6.27,6.4" />
               <g id="gen3_Axo_Extrusion17" data-name="Axo_Extrusion">
@@ -896,20 +896,20 @@
                 </g>
               </g>
             </g>
-            <g id="gen3_fan-5_awning-bar">
+            <g id="gen3_fan-5_awning-bar" class="gen3-part">
               <polygon style="fill:#d6d7d7" points="766.49 436.85 766.49 416.66 923.89 507.53 923.89 527.73 766.49 436.85" />
               <polygon style="fill:#828282" points="923.89 507.5 923.89 527.75 928.26 525.22 928.26 504.98 923.89 507.5" />
               <polygon style="fill:#adadad" points="766.49 416.65 770.86 414.12 928.26 505 923.89 507.52 766.49 416.65" />
             </g>
-            <polygon id="fan-5_overlay" style="fill:#9b9b9b" points="913.53 496.49 928.26 504.98 928.26 449.34 913.53 440.8 913.53 496.49" />
-            <g id="gen3_Axo_Extrusion20" data-name="Axo_Extrusion">
+            <polygon id="fan-5_overlay" class="gen3-part" style="fill:#9b9b9b" points="913.53 496.49 928.26 504.98 928.26 449.34 913.53 440.8 913.53 496.49" />
+            <g id="gen3_fan-6-base" class="gen3-part" data-name="Axo_Extrusion">
               <g id="gen3_Axo_Surface_x2A__x2A_5" data-name="Axo_Surface_x2A__x2A_">
                 <polygon id="Axo_panel30" data-name="Axo_panel" style="fill:#7b7c7c" points="928.26 424.13 928.26 361.19 929.68 360.38 929.68 423.31 928.26 424.13" />
                 <polygon id="Axo_panel31" data-name="Axo_panel" style="fill:#bcbdbd" points="928.26 361.19 770.59 272.18 772 271.36 929.68 360.38 928.26 361.19" />
               </g>
               <polygon id="Axo_base10" data-name="Axo_base" style="fill:#9b9b9b" points="928.26 424.13 770.86 333.28 770.59 272.18 928.26 361.19 928.26 424.13" />
             </g>
-            <g id="gen3_fan-6">
+            <g id="gen3_fan-6" class="gen3-part">
               <path id="Axo_Path15" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M841.82,371.96l38.84-22.43c6.23-3.6,8.05-11.76,3.93-17.66l-6.49-9.31" />
               <path id="Axo_Path16" data-name="Axo_Path" style="fill:none;stroke:#d1d2d6;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px" d="M789.34,285.3l37.66-21.74c3.45-1.99,7.81-1.4,10.6,1.45l6.27,6.4" />
               <g id="gen3_Axo_Extrusion21" data-name="Axo_Extrusion">
@@ -945,12 +945,12 @@
                 </g>
               </g>
             </g>
-            <g id="gen3_fan-6_awning-bar">
+            <g id="gen3_fan-6_awning-bar" class="gen3-part">
               <polygon style="fill:#adadad" points="766.49 335.73 770.86 333.21 928.26 424.09 923.89 426.61 766.49 335.73" />
               <polygon style="fill:#d6d7d7" points="766.49 355.93 766.49 335.73 923.89 426.61 923.89 446.8 766.49 355.93" />
               <polygon style="fill:#828282" points="923.89 426.61 923.89 446.86 928.26 444.33 928.26 424.08 923.89 426.61" />
             </g>
-            <polygon id="fan-6_overlay" style="fill:#9b9b9b" points="843.87 315.05 928.26 363.82 928.26 424.13 843.84 375.27 843.87 315.05" />
+            <polygon id="fan-6_overlay" class="gen3-part" style="fill:#9b9b9b" points="843.87 315.05 928.26 363.82 928.26 424.13 843.84 375.27 843.87 315.05" />
           </g>
           <g id="gen3_bottom-pod_right-panel-1" class="gen3-part">
             <polygon style="fill:#a6a8ab" points="978.54 831.59 991.66 839.16 991.66 596.83 978.54 589.26 978.54 831.59" />
