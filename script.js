@@ -167,13 +167,38 @@ function toggleExplodedView() {
     button.textContent = 'Toggle Exploded View';
     isExploded = false;
     
+    // Get the current fan toggle state
+    const checkbox = document.getElementById('fans-toggle');
+    const areFansVisible = checkbox ? checkbox.checked : true;
+    
+    // Fan IDs that should respect the toggle state
+    const fanIds = [
+      'gen3_fan-1',
+      'gen3_fan-2',
+      'gen3_fan-3',
+      'gen3_fan-4',
+      'gen3_fan-5',
+      'gen3_fan-6'
+    ];
+    
     // Reset all part opacities when exiting exploded view
     gen3Parts.forEach(part => {
       // Skip the parent gen3_fans group to avoid conflicts
       if (part.id === 'gen3_fans') {
         return;
       }
-      part.style.opacity = '';
+      
+      // For fan elements, respect the toggle state
+      if (fanIds.includes(part.id)) {
+        if (areFansVisible) {
+          part.style.setProperty('opacity', '1', 'important');
+        } else {
+          part.style.setProperty('opacity', '0', 'important');
+        }
+      } else {
+        part.style.opacity = '';
+      }
+      
       part.style.filter = '';
     });
     
@@ -186,6 +211,33 @@ function toggleExplodedView() {
     svg.classList.add('exploded');
     button.textContent = 'Reset View';
     isExploded = true;
+    
+    // Apply fan toggle state when entering exploded view
+    // Use setTimeout to ensure this runs after the CSS class change
+    setTimeout(() => {
+      const checkbox = document.getElementById('fans-toggle');
+      const areFansVisible = checkbox ? checkbox.checked : true;
+      
+      const fanIds = [
+        'gen3_fan-1',
+        'gen3_fan-2',
+        'gen3_fan-3',
+        'gen3_fan-4',
+        'gen3_fan-5',
+        'gen3_fan-6'
+      ];
+      
+      fanIds.forEach(fanId => {
+        const fanElement = document.getElementById(fanId);
+        if (fanElement) {
+          if (areFansVisible) {
+            fanElement.style.setProperty('opacity', '1', 'important');
+          } else {
+            fanElement.style.setProperty('opacity', '0', 'important');
+          }
+        }
+      });
+    }, 50);
   }
 }
 
@@ -455,7 +507,11 @@ function toggleFans() {
   fanIds.forEach(fanId => {
     const fanElement = document.getElementById(fanId);
     if (fanElement) {
-      fanElement.style.opacity = isVisible ? '' : '0';
+      if (isVisible) {
+        fanElement.style.setProperty('opacity', '1', 'important');
+      } else {
+        fanElement.style.setProperty('opacity', '0', 'important');
+      }
     }
   });
 }
