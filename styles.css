@@ -352,7 +352,6 @@ body {
   
   .toggle-btn {
     width: 100%;
-    /* max-width: 300px; */
     padding: 12px 16px;
     font-size: 16px;
     margin-bottom: 15px;
@@ -410,8 +409,7 @@ body {
     font-size: 11px;
   }
   
-  /* Reduce exploded view transforms for smaller screens */
-  .exploded #gen3_brackets-back_top-side {
+  /* .exploded #gen3_brackets-back_top-side {
     transform: translate(0, -40px);
   }
   
@@ -469,7 +467,6 @@ body {
     transform: translate(-20px, 30px) skewY(15deg);
   }
   
-  /* Individual fan units move further back than awning components */
   .exploded #gen3_fan-1,
   .exploded #gen3_fan-2,
   .exploded #gen3_fan-3,
@@ -479,7 +476,6 @@ body {
     transform: translate(-240px, 70px);
   }
 
-  /* Fan bases, awning bars, and overlays move with awnings */
   .exploded #gen3_fan-1-base,
   .exploded #gen3_fan-2-base,
   .exploded #gen3_fan-3-base,
@@ -504,7 +500,7 @@ body {
   .exploded #gen3_bottom-pod_awnings,
   .exploded #gen3_top-pod_awnings {
     transform: translate(-275px, 50px);
-  }
+  } */
 }
 
 /* Small Mobile Styles (up to 479px) */
@@ -559,7 +555,7 @@ body {
   }
   
   /* Further reduce transforms for very small screens */
-  .exploded #gen3_brackets-back_top-side,
+  /* .exploded #gen3_brackets-back_top-side,
   .exploded #gen3_brackets-front_top-side {
     transform: translate(0, -30px);
   }
@@ -591,7 +587,6 @@ body {
     transform: translate(20px, 0);
   }
   
-  /* Individual fan units move further back than awning components */
   .exploded #gen3_fan-1,
   .exploded #gen3_fan-2,
   .exploded #gen3_fan-3,
@@ -601,7 +596,6 @@ body {
     transform: translate(-160px, 50px);
   }
 
-  /* Fan bases, awning bars, and overlays move with awnings */
   .exploded #gen3_fan-1-base,
   .exploded #gen3_fan-2-base,
   .exploded #gen3_fan-3-base,
@@ -626,7 +620,7 @@ body {
   .exploded #gen3_bottom-pod_awnings,
   .exploded #gen3_top-pod_awnings {
     transform: translate(-180px, 35px);
-  }
+  } */
 }
 
 /* Touch-friendly enhancements */
