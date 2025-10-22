@@ -258,38 +258,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     part.addEventListener('mouseenter', function(event) {
       console.log('Mouse enter on:', part.id, 'isMeshOverlay:', isMeshOverlay);
-      if (isExploded) {
-        // If it's a mesh overlay, apply effects to both the overlay and the corresponding mesh
-        if (isMeshOverlay) {
-          console.log('Processing mesh overlay hover:', part.id);
-          const meshId = overlayToMeshMap[this.id];
-          const meshElement = document.getElementById(meshId);
-          
-          // Apply effects to the actual mesh element
-          if (meshElement) {
-            meshElement.style.filter = 'brightness(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.3))';
-            
-            // If in highlight mode and this part is faded, temporarily bring it back to full opacity
-            if (meshElement.style.opacity === '0.1') {
-              meshElement.style.opacity = '1';
-            }
-          }
-          
-          // Show popup with part information for the mesh, not the overlay
-          showPartPopup(meshId, event);
-        } else {
-          // Normal behavior for non-overlay parts
-          this.style.filter = 'brightness(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.3))';
-          this.style.cursor = 'pointer';
+      // If it's a mesh overlay, apply effects to both the overlay and the corresponding mesh
+      if (isMeshOverlay) {
+        console.log('Processing mesh overlay hover:', part.id);
+        const meshId = overlayToMeshMap[this.id];
+        const meshElement = document.getElementById(meshId);
+        
+        // Apply effects to the actual mesh element
+        if (meshElement) {
+          meshElement.style.filter = 'brightness(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.3))';
           
           // If in highlight mode and this part is faded, temporarily bring it back to full opacity
-          if (this.style.opacity === '0.1') {
-            this.style.opacity = '1';
+          if (meshElement.style.opacity === '0.1') {
+            meshElement.style.opacity = '1';
           }
-          
-          // Show popup with part information
-          showPartPopup(this.id, event);
         }
+        
+        // Show popup with part information for the mesh, not the overlay
+        showPartPopup(meshId, event);
+      } else {
+        // Normal behavior for non-overlay parts
+        this.style.filter = 'brightness(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.3))';
+        this.style.cursor = 'pointer';
+        
+        // If in highlight mode and this part is faded, temporarily bring it back to full opacity
+        if (this.style.opacity === '0.1') {
+          this.style.opacity = '1';
+        }
+        
+        // Show popup with part information
+        showPartPopup(this.id, event);
       }
     });
     
@@ -341,89 +339,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     part.addEventListener('mousemove', function(event) {
-      if (isExploded) {
-        // Update popup position as mouse moves
-        updatePopupPosition(event);
-      }
+      // Update popup position as mouse moves
+      updatePopupPosition(event);
     });
     
     // Add click event to highlight individual parts
     part.addEventListener('click', function(event) {
       console.log('Click detected on:', part.id, 'isMeshOverlay:', isMeshOverlay);
-      if (isExploded) {
-        // Prevent event bubbling to document
-        event.stopPropagation();
-        
-        let targetElement = this;
-        let targetId = this.id;
-        
-        console.log('Clicked on element:', targetId); // Debug log
-        
-        // If it's a mesh overlay, get the corresponding mesh element
-        if (isMeshOverlay) {
-          console.log('Processing mesh overlay click:', part.id);
-          const meshId = overlayToMeshMap[this.id];
-          targetElement = document.getElementById(meshId);
-          targetId = meshId;
-          if (!targetElement) return;
-        }
-        
-        // Check if this specific part is already highlighted
-        if (highlightedPartId === targetId) {
-          // Same part clicked again - remove all highlighting
-          gen3Parts.forEach(p => {
-            // Skip the parent gen3_fans group to avoid conflicts
-            if (p.id === 'gen3_fans') {
-              return;
-            }
-            p.style.opacity = '';
-            p.style.filter = '';
-          });
-          highlightedPartId = null;
-          console.log('Cleared highlighting'); // Debug log
-        } else {
-          // Different part clicked or first click - highlight this part and fade others
-          gen3Parts.forEach(p => {
-            // Skip the parent gen3_fans group to avoid conflicts
-            if (p.id === 'gen3_fans') {
-              return;
-            }
-            
-            if (p.classList.contains('mesh-overlay')) {
-              // For mesh overlays, set opacity to match their corresponding mesh
-              const overlayMeshId = overlayToMeshMap[p.id];
-              if (overlayMeshId === targetId) {
-                p.style.opacity = '1';
-                p.style.filter = 'brightness(1.2) drop-shadow(2px 2px 6px rgba(30, 117, 223, 0.8))';
-              } else {
-                p.style.opacity = '0.1';
-                p.style.filter = '';
-              }
-            } else {
-              // For regular parts
-              if (p.id === targetId) {
-                p.style.opacity = '1';
-                p.style.filter = 'brightness(1.2) drop-shadow(2px 2px 6px rgba(30, 117, 223, 0.8))';
-                console.log('Highlighted element:', p.id); // Debug log
-              } else {
-                p.style.opacity = '0.1';
-                p.style.filter = '';
-              }
-            }
-          });
-          highlightedPartId = targetId;
-        }
+      // Prevent event bubbling to document
+      event.stopPropagation();
+      
+      let targetElement = this;
+      let targetId = this.id;
+      
+      console.log('Clicked on element:', targetId); // Debug log
+      
+      // If it's a mesh overlay, get the corresponding mesh element
+      if (isMeshOverlay) {
+        console.log('Processing mesh overlay click:', part.id);
+        const meshId = overlayToMeshMap[this.id];
+        targetElement = document.getElementById(meshId);
+        targetId = meshId;
+        if (!targetElement) return;
       }
-    });
-  });
-  
-  // Add click listener to document to clear highlights when clicking elsewhere
-  document.addEventListener('click', function(event) {
-    if (isExploded) {
-      // Check if the click was not on a gen3 part
-      const isGen3Part = event.target.closest('.gen3-part');
-      if (!isGen3Part) {
-        // Clear all highlights
+      
+      // Check if this specific part is already highlighted
+      if (highlightedPartId === targetId) {
+        // Same part clicked again - remove all highlighting
         gen3Parts.forEach(p => {
           // Skip the parent gen3_fans group to avoid conflicts
           if (p.id === 'gen3_fans') {
@@ -433,7 +375,57 @@ document.addEventListener('DOMContentLoaded', function() {
           p.style.filter = '';
         });
         highlightedPartId = null;
+        console.log('Cleared highlighting'); // Debug log
+      } else {
+        // Different part clicked or first click - highlight this part and fade others
+        gen3Parts.forEach(p => {
+          // Skip the parent gen3_fans group to avoid conflicts
+          if (p.id === 'gen3_fans') {
+            return;
+          }
+          
+          if (p.classList.contains('mesh-overlay')) {
+            // For mesh overlays, set opacity to match their corresponding mesh
+            const overlayMeshId = overlayToMeshMap[p.id];
+            if (overlayMeshId === targetId) {
+              p.style.opacity = '1';
+              p.style.filter = 'brightness(1.2) drop-shadow(2px 2px 6px rgba(30, 117, 223, 0.8))';
+            } else {
+              p.style.opacity = '0.1';
+              p.style.filter = '';
+            }
+          } else {
+            // For regular parts
+            if (p.id === targetId) {
+              p.style.opacity = '1';
+              p.style.filter = 'brightness(1.2) drop-shadow(2px 2px 6px rgba(30, 117, 223, 0.8))';
+              console.log('Highlighted element:', p.id); // Debug log
+            } else {
+              p.style.opacity = '0.1';
+              p.style.filter = '';
+            }
+          }
+        });
+        highlightedPartId = targetId;
       }
+    });
+  });
+  
+  // Add click listener to document to clear highlights when clicking elsewhere
+  document.addEventListener('click', function(event) {
+    // Check if the click was not on a gen3 part
+    const isGen3Part = event.target.closest('.gen3-part');
+    if (!isGen3Part) {
+      // Clear all highlights
+      gen3Parts.forEach(p => {
+        // Skip the parent gen3_fans group to avoid conflicts
+        if (p.id === 'gen3_fans') {
+          return;
+        }
+        p.style.opacity = '';
+        p.style.filter = '';
+      });
+      highlightedPartId = null;
     }
   });
 });
@@ -522,12 +514,21 @@ function toggleFocus() {
   const focusBtn = document.querySelector('.focus-btn');
   const explodedBtn = document.getElementById('exploded-btn');
   
+  // Get all pods except pod-1 and the switchgear
+  const otherPods = document.querySelectorAll('#pod-2, #pod-3, #pod-4, #pod-5, #switchgear, #pod-6, #pod-7, #pod-8, #pod-9, #pod-10');
+  
   if (podGroup.classList.contains('focused')) {
     // Exit focus mode
     podGroup.classList.remove('focused');
     focusBtn.classList.remove('active');
-    focusBtn.textContent = 'Focus';
+    focusBtn.textContent = 'Zoom In';
     explodedBtn.disabled = true;
+    
+    // Show other pods and switchgear
+    otherPods.forEach(pod => {
+      pod.style.opacity = '';
+      pod.style.visibility = '';
+    });
     
     // If exploded view is active, reset it
     if (isExploded) {
@@ -537,7 +538,13 @@ function toggleFocus() {
     // Enter focus mode
     podGroup.classList.add('focused');
     focusBtn.classList.add('active');
-    focusBtn.textContent = 'Unfocus';
+    focusBtn.textContent = 'Zoom Out';
     explodedBtn.disabled = false;
+    
+    // Hide other pods and switchgear
+    otherPods.forEach(pod => {
+      pod.style.opacity = '0';
+      pod.style.visibility = 'hidden';
+    });
   }
 }

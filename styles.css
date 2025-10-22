@@ -81,7 +81,7 @@ body {
 .focus-btn {
   background-color: #28a745;
   color: white;
-  width: 110px;
+  width: 130px;
   border: none;
   padding: 12px 24px;
   font-size: 16px;
@@ -209,7 +209,7 @@ body {
 
 .pod-group {
   position: relative;
-  transform: translate(-15%, -18%);
+  transform: translate(-23%, -29%) scale(0.5);
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -220,11 +220,18 @@ body {
 #pod-1,
 #pod-2,
 #pod-3,
-#pod-4 {
+#pod-4,
+#pod-5,
+#switchgear,
+#pod-6,
+#pod-7,
+#pod-8,
+#pod-9,
+#pod-10 {
   width: 100%;
   height: auto;
   display: block;
-  transition: opacity 0.6s ease, display 0.6s ease;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
 #pod-2 {
@@ -240,6 +247,41 @@ body {
 #pod-4 {
   position: absolute;
   transform: translate(31.1%, -67.9%);
+}
+
+#pod-5 {
+  position: absolute;
+  transform: translate(41.5%, -57.1%);
+}
+
+#switchgear {
+  position: absolute;
+  transform: translate(52.3%, -47.5%);
+}
+
+#pod-6 {
+  position: absolute;
+  transform: translate(62.7%, -36.7%);
+}
+
+#pod-7 {
+  position: absolute;
+  transform: translate(73.1%, -26%);
+}
+
+#pod-8 {
+  position: absolute;
+  transform: translate(83.5%, -15.2%);
+}
+
+#pod-9 {
+  position: absolute;
+  transform: translate(94%, -4.5%);
+}
+
+#pod-10 {
+  position: absolute;
+  transform: translate(104.4%, 6.3%);
 }
 
 .pod-group.focused #pod-2,
