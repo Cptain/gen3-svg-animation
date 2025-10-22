@@ -158,7 +158,7 @@ const partInfo = {
 };
 
 function toggleExplodedView() {
-  const svg = document.getElementById('main-svg');
+  const svg = document.getElementById('pod-1');
   const button = document.querySelector('.toggle-btn');
   const gen3Parts = document.querySelectorAll('.gen3-part');
   
@@ -514,4 +514,30 @@ function toggleFans() {
       }
     }
   });
+}
+
+// Function to toggle focus mode
+function toggleFocus() {
+  const podGroup = document.querySelector('.pod-group');
+  const focusBtn = document.querySelector('.focus-btn');
+  const explodedBtn = document.getElementById('exploded-btn');
+  
+  if (podGroup.classList.contains('focused')) {
+    // Exit focus mode
+    podGroup.classList.remove('focused');
+    focusBtn.classList.remove('active');
+    focusBtn.textContent = 'Focus';
+    explodedBtn.disabled = true;
+    
+    // If exploded view is active, reset it
+    if (isExploded) {
+      toggleExplodedView();
+    }
+  } else {
+    // Enter focus mode
+    podGroup.classList.add('focused');
+    focusBtn.classList.add('active');
+    focusBtn.textContent = 'Unfocus';
+    explodedBtn.disabled = false;
+  }
 }

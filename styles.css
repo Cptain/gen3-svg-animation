@@ -15,20 +15,91 @@ body {
   margin: 0 auto;
 }
 
+.btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
 .toggle-btn {
   background-color: #007acc;
   color: white;
+  width: 210px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.toggle-btn:hover {
+  background-color: #005a99;
+}
+
+.toggle-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  color: #666666;
+}
+
+.toggle-btn:disabled:hover {
+  background-color: #cccccc;
+}
+
+.toggle-btn .tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.toggle-btn .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+}
+
+.toggle-btn:disabled:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.focus-btn {
+  background-color: #28a745;
+  color: white;
+  width: 110px;
   border: none;
   padding: 12px 24px;
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 20px;
   transition: background-color 0.3s ease;
 }
 
-.toggle-btn:hover {
-  background-color: #005a99;
+.focus-btn:hover {
+  background-color: #218838;
+}
+
+.focus-btn.active {
+  background-color: #dc3545;
+}
+
+.focus-btn.active:hover {
+  background-color: #c82333;
 }
 
 .controls {
@@ -78,7 +149,7 @@ body {
 }
 
 .toggle-container input[type="checkbox"]:checked + .toggle-slider {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
@@ -95,7 +166,7 @@ body {
   color: white;
   padding: 12px 16px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -127,7 +198,7 @@ body {
 .svg-container {
   display: inline-block;
   width: 100%;
-  /* max-width: 1200px; */
+  max-height: 900px;
   border: 2px solid #ddd;
   border-radius: 8px;
   background-color: white;
@@ -136,10 +207,46 @@ body {
   overflow: hidden;
 }
 
-#main-svg {
+.pod-group {
+  position: relative;
+  transform: translate(-15%, -18%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pod-group.focused {
+  transform: translateX(0);
+}
+
+#pod-1,
+#pod-2,
+#pod-3,
+#pod-4 {
   width: 100%;
   height: auto;
   display: block;
+  transition: opacity 0.6s ease, display 0.6s ease;
+}
+
+#pod-2 {
+  position: absolute;
+  transform: translate(10.25%, -89.25%);
+}
+
+#pod-3 {
+  position: absolute;
+  transform: translate(20.7%, -78.6%);
+}
+
+#pod-4 {
+  position: absolute;
+  transform: translate(31.1%, -67.9%);
+}
+
+.pod-group.focused #pod-2,
+.pod-group.focused #pod-3,
+.pod-group.focused #pod-4 {
+  opacity: 0;
+  visibility: none;
 }
 
 /* Animation styles for exploded view */
@@ -294,47 +401,41 @@ body {
   body {
     padding: 15px;
   }
-  
+
   .container {
     padding: 0 10px;
   }
-  
-  .toggle-btn {
-    padding: 10px 20px;
-    font-size: 15px;
-    margin-bottom: 15px;
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
   }
-  
+
   .controls {
     margin-bottom: 15px;
   }
-  
+
   .toggle-container {
     font-size: 15px;
     margin-left: 15px;
   }
-  
+
   .svg-container {
     min-width: 400px;
     min-height: 300px;
     margin: 0 auto;
   }
-  
-  #main-svg {
-    max-width: 900px;
-    max-height: 600px;
-  }
-  
+
   .part-popup {
     max-width: 200px;
     font-size: 13px;
     padding: 10px 14px;
   }
-  
+
   .popup-title {
     font-size: 15px;
   }
-  
+
   .popup-description {
     font-size: 12px;
   }
@@ -345,162 +446,69 @@ body {
   body {
     padding: 10px;
   }
-  
+
   .container {
     padding: 0 5px;
   }
-  
+
   .toggle-btn {
     width: 100%;
     padding: 12px 16px;
     font-size: 16px;
     margin-bottom: 15px;
   }
-  
+
+  .focus-btn {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+
   .controls {
     margin-bottom: 15px;
     display: flex;
     justify-content: center;
   }
-  
+
   .toggle-container {
     font-size: 16px;
     margin-left: 0;
   }
-  
+
   .toggle-slider {
     width: 54px;
     height: 26px;
   }
-  
+
   .toggle-slider::before {
     width: 22px;
     height: 22px;
   }
-  
+
   .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
     transform: translateX(28px);
   }
-  
+
   .svg-container {
     min-width: unset;
     width: 100%;
     min-height: 250px;
     border-width: 1px;
   }
-  
-  #main-svg {
-    max-width: 100%;
-    max-height: 400px;
-  }
-  
+
   .part-popup {
     max-width: 180px;
     font-size: 12px;
     padding: 8px 12px;
   }
-  
+
   .popup-title {
     font-size: 14px;
     margin-bottom: 4px;
   }
-  
+
   .popup-description {
     font-size: 11px;
   }
-  
-  /* .exploded #gen3_brackets-back_top-side {
-    transform: translate(0, -40px);
-  }
-  
-  .exploded #gen3_brackets-front_top-side {
-    transform: translate(0, -40px);
-  }
-  
-  .exploded #gen3_top-pod_ceiling {
-    transform: translate(0, -60px);
-  }
-  
-  .exploded #gen3_bottom-pod_ceiling {
-    transform: translate(0, 30px);
-  }
-  
-  .exploded #gen3_bottom-pod_floor {
-    transform: translate(0, 60px);
-  }
-  
-  .exploded #gen3_brackets-back_bottom-side {
-    transform: translate(0, 80px);
-  }
-  
-  .exploded #gen3_brackets-front_bottom-side {
-    transform: translate(0, 80px);
-  }
-  
-  .exploded #gen3_bottom-pod_left-panel-1,
-  .exploded #gen3_bottom-pod_left-panel-2 {
-    transform: translate(-30px, 0);
-  }
-  
-  .exploded #gen3_bottom-pod_right-panel-1,
-  .exploded #gen3_bottom-pod_right-panel-2 {
-    transform: translate(30px, 0);
-  }
-  
-  .exploded #gen3_bottom-pod_door-left {
-    transform: translate(-40px, 0) rotateY(-30deg);
-  }
-  
-  .exploded #gen3_bottom-pod_door-right {
-    transform: translate(40px, 0) rotateY(30deg);
-  }
-  
-  .exploded #gen3_top-pod_door-left {
-    transform: translate(-40px, 0) rotateY(-30deg);
-  }
-  
-  .exploded #gen3_top-pod_door-right {
-    transform: translate(40px, 0) rotateY(30deg);
-  }
-  
-  .exploded #gen3_mesh-overlay {
-    transform: translate(-20px, 30px) skewY(15deg);
-  }
-  
-  .exploded #gen3_fan-1,
-  .exploded #gen3_fan-2,
-  .exploded #gen3_fan-3,
-  .exploded #gen3_fan-4,
-  .exploded #gen3_fan-5,
-  .exploded #gen3_fan-6 {
-    transform: translate(-240px, 70px);
-  }
-
-  .exploded #gen3_fan-1-base,
-  .exploded #gen3_fan-2-base,
-  .exploded #gen3_fan-3-base,
-  .exploded #gen3_fan-4-base,
-  .exploded #gen3_fan-5-base,
-  .exploded #gen3_fan-6-base,
-  .exploded #gen3_fan-1_awning-bar,
-  .exploded #gen3_fan-2_awning-bar,
-  .exploded #gen3_fan-3_awning-bar,
-  .exploded #gen3_fan-4_awning-bar,
-  .exploded #gen3_fan-5_awning-bar,
-  .exploded #gen3_fan-6_awning-bar,
-  .exploded #fan-1_overlay,
-  .exploded #fan-2_overlay,
-  .exploded #fan-3_overlay,
-  .exploded #fan-4_overlay,
-  .exploded #fan-5_overlay,
-  .exploded #fan-6_overlay {
-    transform: translate(-275px, 50px);
-  }
-  
-  .exploded #gen3_bottom-pod_awnings,
-  .exploded #gen3_top-pod_awnings {
-    transform: translate(-275px, 50px);
-  } */
 }
 
 /* Small Mobile Styles (up to 479px) */
@@ -508,119 +516,56 @@ body {
   body {
     padding: 8px;
   }
-  
+
   .toggle-btn {
     font-size: 15px;
     padding: 10px 14px;
   }
-  
+
+  .focus-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
   .toggle-container {
     font-size: 15px;
   }
-  
+
   .toggle-slider {
     width: 48px;
     height: 22px;
   }
-  
+
   .toggle-slider::before {
     width: 18px;
     height: 18px;
   }
-  
+
   .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
     transform: translateX(26px);
   }
-  
+
   .svg-container {
     min-height: 200px;
   }
-  
-  #main-svg {
+
+  #pod-1 {
     max-height: 300px;
   }
-  
+
   .part-popup {
     max-width: 150px;
     font-size: 11px;
     padding: 6px 10px;
   }
-  
+
   .popup-title {
     font-size: 13px;
   }
-  
+
   .popup-description {
     font-size: 10px;
   }
-  
-  /* Further reduce transforms for very small screens */
-  /* .exploded #gen3_brackets-back_top-side,
-  .exploded #gen3_brackets-front_top-side {
-    transform: translate(0, -30px);
-  }
-  
-  .exploded #gen3_top-pod_ceiling {
-    transform: translate(0, -45px);
-  }
-  
-  .exploded #gen3_bottom-pod_ceiling {
-    transform: translate(0, 25px);
-  }
-  
-  .exploded #gen3_bottom-pod_floor {
-    transform: translate(0, 45px);
-  }
-  
-  .exploded #gen3_brackets-back_bottom-side,
-  .exploded #gen3_brackets-front_bottom-side {
-    transform: translate(0, 60px);
-  }
-  
-  .exploded #gen3_bottom-pod_left-panel-1,
-  .exploded #gen3_bottom-pod_left-panel-2 {
-    transform: translate(-20px, 0);
-  }
-  
-  .exploded #gen3_bottom-pod_right-panel-1,
-  .exploded #gen3_bottom-pod_right-panel-2 {
-    transform: translate(20px, 0);
-  }
-  
-  .exploded #gen3_fan-1,
-  .exploded #gen3_fan-2,
-  .exploded #gen3_fan-3,
-  .exploded #gen3_fan-4,
-  .exploded #gen3_fan-5,
-  .exploded #gen3_fan-6 {
-    transform: translate(-160px, 50px);
-  }
-
-  .exploded #gen3_fan-1-base,
-  .exploded #gen3_fan-2-base,
-  .exploded #gen3_fan-3-base,
-  .exploded #gen3_fan-4-base,
-  .exploded #gen3_fan-5-base,
-  .exploded #gen3_fan-6-base,
-  .exploded #gen3_fan-1_awning-bar,
-  .exploded #gen3_fan-2_awning-bar,
-  .exploded #gen3_fan-3_awning-bar,
-  .exploded #gen3_fan-4_awning-bar,
-  .exploded #gen3_fan-5_awning-bar,
-  .exploded #gen3_fan-6_awning-bar,
-  .exploded #fan-1_overlay,
-  .exploded #fan-2_overlay,
-  .exploded #fan-3_overlay,
-  .exploded #fan-4_overlay,
-  .exploded #fan-5_overlay,
-  .exploded #fan-6_overlay {
-    transform: translate(-180px, 35px);
-  }
-  
-  .exploded #gen3_bottom-pod_awnings,
-  .exploded #gen3_top-pod_awnings {
-    transform: translate(-180px, 35px);
-  } */
 }
 
 /* Touch-friendly enhancements */
@@ -629,31 +574,36 @@ body {
     padding: 14px 20px;
     font-size: 16px;
   }
-  
+
+  .focus-btn {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
   .toggle-container {
     padding: 8px;
     margin: 4px;
   }
-  
+
   .toggle-slider {
     width: 56px;
     height: 28px;
   }
-  
+
   .toggle-slider::before {
     width: 24px;
     height: 24px;
   }
-  
+
   .toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
     transform: translateX(28px);
   }
-  
+
   /* Make SVG parts more touch-friendly */
   .gen3-part {
     cursor: pointer;
   }
-  
+
   .part-popup {
     font-size: 14px;
     padding: 12px 16px;
